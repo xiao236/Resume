@@ -5,3 +5,7 @@ variable "website_endpoint" {
 variable "domain" {
     default = ""
 }
+
+variable "origin_id" {
+    default = ""
+}

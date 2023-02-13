@@ -14,7 +14,7 @@ resource "aws_s3_bucket_policy" "publicaccess" {
             "Effect": "Allow",
             "Principal": "*",
             "Action": "s3:GetObject",
-            "Resource": "${aws_s3_bucket.website.arn}"
+            "Resource": "${aws_s3_bucket.website.arn}/*"
         }
     ]
 }
@@ -26,7 +26,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "sse" {
 
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm     = "aws:kms"
+      sse_algorithm     = "AES256"
     }
   }
 }
@@ -49,11 +49,13 @@ resource "aws_s3_bucket_website_configuration" "staticweb" {
 resource "aws_s3_object" "index_doc" {
   key        = "index.html"
   bucket     = aws_s3_bucket.website.id
-  source     = "index.html"
+  source     = "../index.html"
+  content_type = "text/html"
 }
 
 resource "aws_s3_object" "style_doc" {
   key        = "style.css"
   bucket     = aws_s3_bucket.website.id
-  source     = "style.css"
+  source     = "../style.css"
+  content_type = "text/css"
 }

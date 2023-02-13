@@ -5,6 +5,7 @@ module "s3" {
 module "cloudfront" {
     source = "./modules/cloudfront"
     website_endpoint = module.s3.website_endpoint
+    origin_id = module.s3.id
     domain = var.domain
 }
 
