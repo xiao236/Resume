@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "website" {
-  bucket = "resumebucketchallenge13"
+  bucket = "damixiaoresumebucket"
 
 }
 
