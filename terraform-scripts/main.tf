@@ -15,3 +15,17 @@ module "route53" {
     cf_dns = module.cloudfront.domain_name
     cf_zone = module.cloudfront.hosted_zone_id
 }
+
+module "dynamodb" {
+    source = "./modules/dynamo"
+}
+
+module "lambda" {
+    source = "./modules/lambda"
+    db_arn = module.dynamodb.db_arn
+}
+
+module "api-gateway" {
+    source = "./modules/api-gateway"
+    invoke_arn = module.lambda.invoke_arn
+}
