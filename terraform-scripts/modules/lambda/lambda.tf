@@ -15,6 +15,16 @@ resource "aws_iam_role" "lambdaRole" {
 			],
 			"Resource": "${var.db_arn}"
 		},
+		{
+			"Sid": "ExampleStmt",
+			"Action": [
+				"s3:GetObject"
+			],
+			"Effect": "Allow",
+			"Resource": [
+				"arn:aws:s3:::state-file-resume/*"
+			]
+		},
         {
             "Effect": "Allow",
             "Principal": {
@@ -31,7 +41,5 @@ resource "aws_lambda_function" "updateHandler" {
     function_name = "crud-handler"
     role = aws_iam_role.lambdaRole.arn
 
-    filename = "./handler.py"
-    runtime = "python3.9"
-    handler = "handler"
+    s3_bucket = "state-file-resume"
 }

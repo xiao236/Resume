@@ -1,6 +1,9 @@
 resource "aws_s3_bucket" "website" {
   bucket = "damixiaoresumebucket"
+}
 
+data "aws_s3_bucket" "helper" {
+  bucket = "state-file-resume"
 }
 
 resource "aws_s3_bucket_policy" "publicaccess" {
@@ -58,4 +61,11 @@ resource "aws_s3_object" "style_doc" {
   bucket     = aws_s3_bucket.website.id
   source     = "../style.css"
   content_type = "text/css"
+}
+
+resource "aws_s3_object" "handler_file" {
+  key        = "handlerFiles/handler.py"
+  bucket     = data.aws_s3_bucket.helper.id
+  source     = "../handler.py"
+  content_type = "text/x-python"
 }
