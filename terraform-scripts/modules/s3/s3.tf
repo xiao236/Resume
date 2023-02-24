@@ -63,9 +63,15 @@ resource "aws_s3_object" "style_doc" {
   content_type = "text/css"
 }
 
+data "archive_file" "zipit" {
+  type        = "zip"
+  source_file = "../function/crudhandler.py"
+  output_path = "function.zip"
+}
+
 resource "aws_s3_object" "handler_file" {
-  key        = "handlerFiles/handler.py"
+  key        = "handlerFiles/function.zip"
   bucket     = data.aws_s3_bucket.helper.id
-  source     = "../handler.py"
-  content_type = "text/x-python"
+  source     = "function.zip"
+  content_type = "application/x-zip-compressed"
 }
