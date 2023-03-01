@@ -25,7 +25,7 @@ module "lambda" {
     db_arn = module.dynamodb.db_arn
 }
 
-# module "api-gateway" {
-#     source = "./modules/api-gateway"
-#     invoke_arn = module.lambda.invoke_arn
-# }
+module "api-gateway" {
+    source = "./modules/api-gateway"
+    invoke_arn = module.lambda.invoke_arn
+}
