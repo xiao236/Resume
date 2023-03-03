@@ -63,15 +63,41 @@ resource "aws_s3_object" "style_doc" {
   content_type = "text/css"
 }
 
-data "archive_file" "zipit" {
+data "archive_file" "zipput" {
   type        = "zip"
-  source_file = "../function/crudhandler.py"
-  output_path = "function.zip"
+  source_file = "../lambdafuncts/UpdateViewerCount/index.py"
+  output_path = "putfunc.zip"
 }
 
-resource "aws_s3_object" "handler_file" {
-  key        = "handlerFiles/function.zip"
+data "archive_file" "zipget" {
+  type        = "zip"
+  source_file = "../lambdafuncts/GetViewerCount/index.py"
+  output_path = "getfunc.zip"
+}
+
+data "archive_file" "ziptest" {
+  type        = "zip"
+  source_file = "../lambdafuncts/HelloWorld/index.py"
+  output_path = "hitest.zip"
+}
+
+resource "aws_s3_object" "update-handler" {
+  key        = "handlerFiles/putfunc.zip"
   bucket     = data.aws_s3_bucket.helper.id
-  source     = "function.zip"
+  source     = "putfunc.zip"
+  content_type = "application/x-zip-compressed"
+}
+
+resource "aws_s3_object" "get-handler" {
+  key        = "handlerFiles/getfunc.zip"
+  bucket     = data.aws_s3_bucket.helper.id
+  source     = "getfunc.zip"
+  content_type = "application/x-zip-compressed"
+}
+
+resource "aws_s3_object" "test-hello" {
+  key        = "handlerFiles/hitest.zip"
+  bucket     = data.aws_s3_bucket.helper.id
+  source     = "hitest.zip"
   content_type = "application/x-zip-compressed"
 }

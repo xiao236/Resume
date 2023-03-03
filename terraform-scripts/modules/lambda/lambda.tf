@@ -55,12 +55,34 @@ resource "aws_iam_role" "lambdaRole" {
 }
 
 resource "aws_lambda_function" "updateHandler" {
-    function_name = "crud-handler"
+    function_name = "update-handler"
     role = aws_iam_role.lambdaRole.arn
 
     s3_bucket = "state-file-resume"
-	s3_key = "handlerFiles/function.zip"
+	s3_key = "handlerFiles/putfunc.zip"
 
 	runtime = "python3.7"
-	handler = "crudhandler.handler"
+	handler = "index.lambda_handler"
+}
+
+resource "aws_lambda_function" "getHandler" {
+    function_name = "get-handler"
+    role = aws_iam_role.lambdaRole.arn
+
+    s3_bucket = "state-file-resume"
+	s3_key = "handlerFiles/getfunc.zip"
+
+	runtime = "python3.7"
+	handler = "index.lambda_handler"
+}
+
+resource "aws_lambda_function" "HelloWorld" {
+    function_name = "hello-world"
+    role = aws_iam_role.lambdaRole.arn
+
+    s3_bucket = "state-file-resume"
+	s3_key = "handlerFiles/hitest.zip"
+
+	runtime = "python3.7"
+	handler = "index.lambda_handler"
 }
